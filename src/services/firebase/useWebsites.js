@@ -7,7 +7,7 @@ import {
     deleteDoc,
   } from "firebase/firestore";
 
-  function useTodo() {
+  function useWebsites() {
     const db = getFirestore();
     const ref = collection(db, "websites");
     const getWebsites = () => getDocs(query(ref, orderBy("name", "asc")));
@@ -16,4 +16,4 @@ import {
     return { getWebsites, createWebsite };
   }
   
-  export default useTodo;
+  export default useWebsites;

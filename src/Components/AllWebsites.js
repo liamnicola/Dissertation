@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import {
+  Route
+} from "react-router-dom";
 import useAuth from "../services/firebase/useAuth";
 import useWebsites from "../services/firebase/useWebsites";
 import { collection, deleteDoc, getFirestore, updateDoc, doc, increment } from "firebase/firestore";
-
+import { Link } from "react-router-dom";
 
 const StyledContainer = styled.div`
   //display: inline-block;
@@ -66,6 +69,7 @@ function AllWebsites() {
     useEffect(() => {
       getWebsiteData();
     }, []);
+    
 
     
 
@@ -74,8 +78,8 @@ function AllWebsites() {
         <StyledContainer>
             {websites.map((website) => (
                 <StyledRootDiv>
-                <StyledH2>{website.name}</StyledH2>
-                <a href="{website.link}">{website.link}</a>
+                <StyledH2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2>
+                <a href={website.link}>{website.link}</a>
                 <p><button onClick={()=>{
                   upvote(website.id)
                 }}>Upvote</button>{" "}{website.score}{" "}<button onClick={()=>{
@@ -85,7 +89,6 @@ function AllWebsites() {
             ))}
         </StyledContainer>
     )
-
 };
 
 export default AllWebsites;

@@ -18,6 +18,8 @@ import Home from "./Views/Home";
 import Login from "./Views/Login";
 import Create from "./Views/Create";
 import Websites from "./Views/Websites";
+import Website from "./Views/Website";
+import SingleWebsite from "./Components/SingleWebsite";
 
 function Protected({ authenticated, children, ...rest }) {
   return (
@@ -87,6 +89,9 @@ useEffect(() => {
             </Protected>
             <Protected authenticated={isAuthenticated} exact path="/Websites">
               <Websites />
+            </Protected>
+            <Protected authenticated={isAuthenticated} exact path="/website/:id">
+              <SingleWebsite />
             </Protected>
           </Switch>
       </div>
