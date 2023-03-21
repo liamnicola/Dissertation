@@ -16,6 +16,11 @@ margin-left: 25%;
 border-radius: 25px;
 text-align: center;
 `
+const StyledRootDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+
+`;
 
 const StyledH2 = styled.h2`
   justify-content: center;
@@ -26,13 +31,13 @@ const StyledH2 = styled.h2`
 
 function Home() {
   return (
-    <div>
+    <StyledRootDiv>
       <h1>Welcome To My Website</h1>
       <StyledInput value="Search Websites Here!"></StyledInput>
       <br/>
       <StyledH2>Recently added websites</StyledH2>
       <LastWebsites />
-    </div>
+    </StyledRootDiv>
   );
 }
 

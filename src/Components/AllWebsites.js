@@ -24,6 +24,9 @@ const StyledRootDiv = styled.div`
   position: relative;
   margin-left: 25%;
   margin-bottom: 15px;
+  a:link { text-decoration: none; }
+a:visited { text-decoration: none; }
+a { color: inherit; } 
 `;
 
 const StyledH2 = styled.h2`
@@ -79,7 +82,7 @@ function AllWebsites() {
             {websites.map((website) => (
                 <StyledRootDiv>
                 <StyledH2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2>
-                <a href={website.link}>{website.link}</a>
+                <a href={website.link}>Visit Website</a>
                 <p><button onClick={()=>{
                   upvote(website.id)
                 }}>Upvote</button>{" "}{website.score}{" "}<button onClick={()=>{

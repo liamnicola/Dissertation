@@ -20,6 +20,19 @@ import useAuth from "../services/firebase/useAuth";
     rgba(252, 70, 107, 1) 100%
   );*/
 
+
+  const StyledRootDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  border-radius: 250px;
+  font-size: 18pt;
+  position: relative;
+  margin-left: 25%;
+  margin-bottom: 15px;
+`;
 const StyledForm = styled.form`
   background: #232222;
   display: grid;
