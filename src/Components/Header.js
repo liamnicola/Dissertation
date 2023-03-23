@@ -5,6 +5,10 @@ import styled, { ThemeConsumer } from "styled-components";
 import useAuth from "../services/firebase/useAuth";
 import PropTypes from "prop-types";
 
+const StyledRootDiv = styled.div`
+  height: 100vh;
+`;
+
 const StyledNav = styled.nav`
   ul {
     display: flex;
@@ -19,7 +23,7 @@ const StyledNav = styled.nav`
   }
   a:-webkit-any-link {
     text-decoration: none;
-    color: white;
+    color: black;
   }
 `;
 
@@ -33,10 +37,9 @@ const StyledBurgerMenu = styled.div`
     flex-direction: column;
     justify-content: center;
     hr {
-      margin: 10px 0 0 10px;
+      margin: 11px 0 0 11px;
       width: 25%;
       border: 1px solid
-      left: 5px;
   `;
 
 const StyledClosedText = styled.p`
@@ -61,20 +64,20 @@ const StyledLi = styled.li`
 const StyledMenuWrapper = styled.div`
     transition: all 0.6s ease;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
-    height: 100vh;
+    height: 100%;
     width: 240px;
     position: absolute;
     padding-top: 1%;
     border-style: solid;
-    border-color: #32a852;
+    border-color: #9be8fd;
     border-width: 4px;
     border-left: 0;
     border-bottom: 0;
     border-top: 0;
-    background-color: #090909;
+    background-color: #e6e6e6;
     z-index: 1;
   `;
-
+//090909
 
   function Menu(props) {
     const { onClick } = props;

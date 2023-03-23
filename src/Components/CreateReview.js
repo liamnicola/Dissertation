@@ -11,10 +11,11 @@ import {
   getDocs,
   getFirestore,
 } from "firebase/firestore";
+import useAuth from "../services/firebase/useAuth";
 
 
 const StyledForm = styled.form`
-  background: #232222;
+  background: #cccccc;
   display: grid;
   justify-content: center;
   align-items: center;
@@ -25,32 +26,39 @@ const StyledForm = styled.form`
   border: 0;
   font-size: 20px;
   border-radius: 25px;
+  width: 35vw;
 `;
 const StyledLabel = styled.label`
   text-align: center;
   margin-bottom: 10px;
-  
+  width: 32vw;
+  font-size: 18pt;
 `;
 
 const StyledInput = styled.input`
   text-align: center;
-  height: 25px;
+  height: 30px;
   border-radius: 25px;
-
+  font-size: 15pt;
+  
 `;
 
 const StyledButton = styled.button`
   height: 40px;
-  background: linear-gradient(to right top, #BF81A0, #8766A7, #5694A0  );
+  background: #b4eefd;
   border-radius: 22px;
-  color: white;
   cursor: pointer;
   text-align: center;
   justify-content: center;
   align-items: center;
   align-content: center;
 `;
-
+const StyledH2 = styled.h2`
+  justify-content: center;
+  display: flex;
+  font-weight: bold;
+  margin-top: 20px;
+`;
 
 function ReviewForm(props) {
     const id = props.props;
@@ -58,19 +66,23 @@ function ReviewForm(props) {
     const subRef = collection(db, `websites/${id}/reviews`)
     const [newTitle, setNewTitle] = useState("");
     const [newComment, setNewComment] = useState("");
-    const [newDate, setNewDate] = useState("");
-
+    const { user } = useAuth();
     const formSchema = yup.object({
         title: yup.string().required("Title is Required"),
         comment: yup.string().required("Comment is Required"),
     }).required();
 
+    const moment = require('moment');
+    const date = moment();
+    const newDate = date.format('YYYY-MM-DD')
     const {register, formState: { errors }, watch} = useForm({resolver: yupResolver(formSchema),defaultValues: {title: "", comment: ""} ,});
 
     const createReview = async (event) => {
         let formData = {
             title: newTitle,
-            comment: newComment
+            comment: newComment,
+            account: user.email,
+            date: newDate
         }
         const Valid = await formSchema.isValid(formData)
         if(Valid === true){
@@ -87,12 +99,11 @@ function ReviewForm(props) {
   }
     };
 
-    useEffect(() => {
-      //createReview();
-    }, []);
+    
     return (
         <div>
           <StyledForm name="createReviewForm" onSubmit={createReview}>
+            <StyledH2>Share your experiences of the site:</StyledH2>
             <StyledLabel>Title</StyledLabel>
             <StyledInput
               type="title"
@@ -113,9 +124,11 @@ function ReviewForm(props) {
             ></StyledInput>
             <label>{errors.comment&&errors.comment.message}</label>
             <br />
+            <br/>
             <StyledButton type="submit" onSubmit={createReview}>
               Submit
             </StyledButton>
+            <br/>
           </StyledForm>
         </div>
       );

@@ -16,6 +16,7 @@ import Header from "./Components/Header";
 import Landing from "./Views/Landing";
 import Home from "./Views/Home";
 import Login from "./Views/Login";
+import Join from "./Views/Join";
 import Create from "./Views/Create";
 import Websites from "./Views/Websites";
 import Website from "./Views/Website";
@@ -79,6 +80,9 @@ useEffect(() => {
           </Route>
           <Route exact path="/Login">
             <Login signInEmailUser={signInEmailUser} />
+          </Route>
+          <Route exact path="/join">
+            <Join createEmailUser={createEmailUser}/>
           </Route>
           <Switch>
           <Protected authenticated={isAuthenticated} exact path="/Home">

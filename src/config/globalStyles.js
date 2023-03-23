@@ -1,12 +1,12 @@
 import { createGlobalStyle } from "styled-components";
-
+//121212
 const GlobalStyles = createGlobalStyle`
 
 body {
-    background-color: #121212;
+    background-color: #f2f2f2;
     padding-top: 0;
     margin: 0;
-    color: white;
+    color: black;
 };
 
 h1 {

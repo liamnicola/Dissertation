@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
+import { useHistory } from 'react-router-dom';
+
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
@@ -34,7 +36,7 @@ import useAuth from "../services/firebase/useAuth";
   margin-bottom: 15px;
 `;
 const StyledForm = styled.form`
-  background: #232222;
+  background: #cccccc;
   display: grid;
   justify-content: center;
   align-items: center;
@@ -62,9 +64,8 @@ const StyledInput = styled.input`
 
 const StyledButton = styled.button`
   height: 50px;
-  background: linear-gradient(to right top, #BF81A0, #8766A7, #5694A0  );
+  background:#b4eefd;
   border-radius: 22px;
-  color: white;
   cursor: pointer;
   margin-top: 6%;
   text-align: center;
@@ -78,40 +79,42 @@ function WebsiteForm() {
 
   const [newName, setNewName] = useState("");
   const [newLink, setNewLink] = useState("");
-  //const [newScore, setNewScore] = useState(0);
+  const [newDesc, setNewDesc] = useState("");
+  const [newType, setNewType] = useState("");
+  const history = useHistory();
   const websiteCollectionRef = collection(db, "websites");
 
   const formSchema = yup.object({
     name: yup.string().required("Name is Required"),
     link: yup.string().required("Link is Required"),
-    //score: yup.number()
   }).required();
   
 
-  const {register, formState: { errors }, watch} = useForm({resolver: yupResolver(formSchema),defaultValues: {name: "", link: "", score: 0} ,});
+  const {register, formState: { errors }, watch} = useForm({resolver: yupResolver(formSchema),defaultValues: {name: "", link: ""} ,});
 
   const { user } = useAuth();
-  
 
   const createWebsite = async (event) => {
     let formData = {
       name: newName,
       link: newLink,
-      score: 0,
+      description: newDesc,
+      upvote: 0,
+      downvote: 0,
+      type: newType
     }
     const Valid = await formSchema.isValid(formData)
     if(Valid ===true){
-    addDoc(websiteCollectionRef, {
-      ...formData
-    });
-    console.log(Valid)
-    event.preventDefault();
-    document.createWebsiteForm.reset();
-    alert("Created")
+      addDoc(websiteCollectionRef, {
+        ...formData
+      });
+      console.log(Valid)
+      event.preventDefault();
+      history.push('/websites');
   } else {
-    alert("All Data must be entered")
-    event.preventDefault();
-  }
+      alert("All Data must be entered")
+      event.preventDefault();
+    } 
   };
 
   return (
@@ -137,6 +140,26 @@ function WebsiteForm() {
         ></StyledInput>
         <label>{errors.link&&errors.link.message}</label>
         <br />
+        <StyledLabel>Website Description</StyledLabel>
+            <StyledInput
+              type="description"
+              name="description"
+              placeholder="Please Enter a Description"
+              {...register("description")}
+              onChange={(event) => setNewDesc(event.target.value)}
+            ></StyledInput>
+            <label>{errors.comment&&errors.description.message}</label>
+            <br />
+            <StyledLabel>Website Type</StyledLabel>
+            <select placeholder=""{...register("type")}
+              onChange={(event) => setNewType(event.target.value)}> 
+              <option selected disabled>Please Choose Type</option>
+              <option value="Social Media">Social Media</option>
+              <option value="Selling">Selling</option>
+              <option value="Business">Business</option>
+              <option value="News">News</option>
+            </select>
+            <br />
         <StyledButton type="submit" onSubmit={createWebsite}>
           Submit
         </StyledButton>

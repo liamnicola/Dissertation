@@ -4,13 +4,16 @@ const theme={
     },
     typography: {
         fontFamily: "Ariel",
-        fontColor: "#fffff",
+        fontColor: "#00000",
         h1: {
-          fontSize: "42px",
+          fontSize: "34px",
 
         },
         h2: {
-            fontSize: "30px"
+            fontSize: "26px"
+        },
+        h3: {
+            fontSize: "20px"
         },
 
     }
