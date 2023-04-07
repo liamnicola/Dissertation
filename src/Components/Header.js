@@ -20,10 +20,11 @@ const StyledNav = styled.nav`
     padding-left: 0;
     margin: 0;
     height: 50px;
+    
   }
   a:-webkit-any-link {
     text-decoration: none;
-    color: black;
+    color: white;
   }
 `;
 
@@ -69,12 +70,12 @@ const StyledMenuWrapper = styled.div`
     position: absolute;
     padding-top: 1%;
     border-style: solid;
-    border-color: #9be8fd;
+    border-color: #9BDADE;
     border-width: 4px;
     border-left: 0;
     border-bottom: 0;
     border-top: 0;
-    background-color: #e6e6e6;
+    background-color: #202020;
     z-index: 1;
   `;
 //090909

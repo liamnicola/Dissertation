@@ -9,7 +9,8 @@ import {
     getFirestore,
     deleteDoc,
     orderBy,
-    query
+    query,
+    where
   } from "firebase/firestore";
 import ReviewForm from "./CreateReview";
 import useAuth from "../services/firebase/useAuth";
@@ -65,19 +66,14 @@ const StyledDiv = styled.div`
     border-bottom: solid;
     border-color: #cccccc;
     width: 90%;
+    margin-bottom: 15px;
 `;
 const StyledH3 = styled.h3`
-
   margin-top: 0px;
-  
-  
 `;
 
 const StyledH2 = styled.h2`
-  
   border-bottom: solid
-  
-  
 `;
 const StyledP = styled.p`
 display: flex;
@@ -89,8 +85,13 @@ const StyledP2 = styled.p`
 margin-top: 3px;
 `;
 
+const StyledSpan = styled.span`
+  margin-left: 4px;
+  margin-right: 4px;
+`;
+
 function SingleWebsite() {
-    const {id} = useParams()
+    const {id} = useParams();
     const db = getFirestore();
     const ref = doc(db, "websites", id);
     const [website, setWebsite] = useState([]);
@@ -98,7 +99,12 @@ function SingleWebsite() {
     const subRef = collection(db, `websites/${id}/reviews`)
     const [sub, setSub] = useState([]);
     const { user } = useAuth();
-    
+    const [upvotes, setUpvotes] = useState([]);
+    const upvotesRef = collection(db, "upvotes");
+    const upvotesDoc = query(upvotesRef, where("websiteId", "==", id));
+    const [downvotes, setDownvotes] = useState([]);
+    const downvotesRef = collection(db, "downvotes");
+    const downvotesDoc = query(downvotesRef, where("websiteId", "==", id));
 
     const getData = async () => {
         let website = []
@@ -123,6 +129,24 @@ function SingleWebsite() {
         
     }
 
+
+    const getUpvotes = async () => {
+        const data = await getDocs(upvotesDoc)
+        setUpvotes(data.docs.length)
+    }
+
+    const getDownvotes = async () => {
+        const data = await getDocs(downvotesDoc)
+        setDownvotes(data.docs.length)
+    }
+console.log(upvotes + downvotes)
+    let rating = 0; 
+        if (upvotes >0 || downvotes > 0){
+            rating = Math.round((upvotes / (upvotes + downvotes)) * 100)
+        } else {
+            rating = "Unavailable"
+    }
+
     const amount = sub.length;
     let message = "";
     if (amount === 0){
@@ -141,7 +165,6 @@ function SingleWebsite() {
         getSubData();
       };
 
-
     
     const back =() => {
         history.goBack();
@@ -150,6 +173,8 @@ function SingleWebsite() {
     useEffect(() => {
         getData();
         getSubData();
+        getUpvotes();
+        getDownvotes();
       }, []);
 
     return(
@@ -159,8 +184,10 @@ function SingleWebsite() {
                 <h1>{w.name}</h1> 
                 <StyledP><a href={w.link}>Visit Website</a> <br /></StyledP>
                 <StyledP>Description: {w.description}</StyledP>
-                <StyledP>Current Score: {w.upvote + w.downvote}</StyledP>
+                <StyledP>Satisfaction Score: {rating}%</StyledP>
             </div>))}
+            <StyledP>Upvotes: <StyledSpan style={{color:'green'}}>{upvotes} </StyledSpan> Downvotes: <StyledSpan style={{color:'red'}}>{downvotes}</StyledSpan></StyledP>
+
             <ReviewForm props={id}/>
                 
             <StyledH2>{message}</StyledH2>
@@ -177,6 +204,5 @@ function SingleWebsite() {
         </StyledRootDiv>
     )
 }
-
 
 export default SingleWebsite;

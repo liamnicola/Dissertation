@@ -5,18 +5,17 @@ import styled from "styled-components";
 
 const StyledRootDiv = styled.div`
   display: flex;
+  background-color: #121212;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: auto;
-  border-radius: 25px;
   font-size: 18pt;
   position: absolute;
     top:0;
     bottom: 0;
     left: 0;
     right: 0;
-    
     margin: auto;
 `;
 const StyledH1 = styled.h1`

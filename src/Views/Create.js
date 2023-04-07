@@ -5,13 +5,19 @@ import styled from "styled-components";
 const StyledRootDiv = styled.div`
   display: flex;
   flex-direction: column;
-
+  height: 100vh;
+  margin: 0;
 `;
+
+const StyledRootH1 = styled.h1`
+  margin-top: 0;
+`;
+
 
 const Create = () => {
   return (
     <StyledRootDiv>
-      <h1>Upload a Website</h1>
+      <StyledRootH1>Upload a Website</StyledRootH1>
       <WebsiteForm/>
     </StyledRootDiv>
   );

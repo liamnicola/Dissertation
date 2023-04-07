@@ -73,6 +73,9 @@ const StyledButton = styled.button`
   align-items: center;
   align-content: center;
 `;
+const StyledContainer = styled.div`
+    height: 1000px;;
+`
 
 function WebsiteForm() {
   const db = getFirestore();
@@ -118,7 +121,7 @@ function WebsiteForm() {
   };
 
   return (
-    <div>
+    <StyledContainer>
       <StyledForm name="createWebsiteForm" onSubmit={createWebsite}>
         <StyledLabel>Name </StyledLabel>
         <StyledInput
@@ -164,7 +167,7 @@ function WebsiteForm() {
           Submit
         </StyledButton>
       </StyledForm>
-    </div>
+    </StyledContainer>
   );
 }
 

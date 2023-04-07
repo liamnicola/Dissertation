@@ -20,7 +20,8 @@ import Join from "./Views/Join";
 import Create from "./Views/Create";
 import Websites from "./Views/Websites";
 import Website from "./Views/Website";
-import SingleWebsite from "./Components/SingleWebsite";
+import background2 from "./assets/background2.png"
+
 
 function Protected({ authenticated, children, ...rest }) {
   return (
@@ -67,7 +68,10 @@ useEffect(() => {
   }, [location]);
 
   return (
-    <div>
+    <div style={{
+      backgroundImage: `url(${background2})`,
+      minHeight: `100vh`
+    }}>
       <ThemeProvider theme={theme}>
         
         <GlobalStyles />
@@ -95,7 +99,7 @@ useEffect(() => {
               <Websites />
             </Protected>
             <Protected authenticated={isAuthenticated} exact path="/website/:id">
-              <SingleWebsite />
+              <Website />
             </Protected>
           </Switch>
       </div>

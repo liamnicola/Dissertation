@@ -2,8 +2,10 @@ import {
 	createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged,
 	signInWithEmailAndPassword, signInWithPopup, signOut
 } from "firebase/auth";
+import { setDoc, doc, getFirestore, ref} from "firebase/firestore"
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
+
 
 
 function useAuth() {
@@ -11,6 +13,7 @@ function useAuth() {
 	const [user, setUser] = useState({})
 	const auth = getAuth();
 	const googleProvider = new GoogleAuthProvider();
+	const db = getFirestore();
 
 	useEffect(() => {
 
@@ -30,12 +33,21 @@ function useAuth() {
 
 
 
-	const createEmailUser = (email, password) =>
-		createUserWithEmailAndPassword(auth, email, password);
+	const createEmailUser =   async(email, password) =>{
+		await createUserWithEmailAndPassword(auth, email, password).then((account) => {
+			return setDoc(doc(db, "users", account.user.uid),{
+				email: email,
+			})
 
-	const signInEmailUser = (email, password) =>
+		})
+		 
+	}
+
+
+	const signInEmailUser = (email, password) => 
 		signInWithEmailAndPassword(auth, email, password);
 
+	
 	const signUserOut = () => signOut(auth);
 	const signInGoogleUser = () => signInWithPopup(auth, googleProvider);
 

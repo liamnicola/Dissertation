@@ -1,12 +1,15 @@
 import { createGlobalStyle } from "styled-components";
+import background from "../assets/background.jpg"
 //121212
 const GlobalStyles = createGlobalStyle`
 
+
+
 body {
-    background-color: #f2f2f2;
+
     padding-top: 0;
     margin: 0;
-    color: black;
+    color: white;
 };
 
 h1 {
@@ -15,6 +18,7 @@ h1 {
 
 :-webkit-any-link {
 }
-`;
+;
 
+`
 export default GlobalStyles;
