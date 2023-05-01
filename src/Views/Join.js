@@ -48,7 +48,7 @@ function Join(props) {
         navigate("/");
       }
     } catch (error) {
-      console.log("error");
+      console.log("error in join");
     }
   };
 

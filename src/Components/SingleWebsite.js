@@ -1,4 +1,4 @@
-import { useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory, Link } from "react-router-dom"
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 import {
@@ -19,14 +19,11 @@ import trash from "../assets/trash.png"
 const StyledRootDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  flex: 0 0 33%;
   font-size: 18pt;
-  position: relative;
   margin-bottom: 15px;
   justify-content: center;
-  a:link { text-decoration: udnerline; }
+  a:link { text-decoration: underline; }
   a:visited { text-decoration: underline; }
   a { color: inherit; } 
 `;
@@ -35,10 +32,9 @@ const StyledImage = styled.img`
   background: #ff3333;
   border-radius: 20px;
   cursor: pointer;
-  margin-bottom: 15px;
-  margin-right: 5px;
-margin-left: auto;
+  margin-bottom: 5px;
 `;
+
 
 const StyledButton = styled.button`
 background: #b4eefd;
@@ -47,48 +43,67 @@ cursor: pointer;
 margin-top: 12px;
 font-size: 14pt;
 `
-const StyledButton2 = styled.button`
-display: flex;
-background:  red;
-border-radius: 22px;
-color: white;
-cursor: pointer;
-margin-top: 12px;
-margin-bottom: 12px;
-font-size: 14pt;
-justify-content: center;
-align-items: center;
-`
-
 const StyledDiv = styled.div`
-    
+width: 50%;
+
+`;
+
+const StyledDiv2 = styled.div`
+    margin-top:20px;
+    margin-bottom:15px;
     flex-direction: column;
-    border-bottom: solid;
-    border-color: #cccccc;
     width: 90%;
-    margin-bottom: 15px;
+    background: white;
+    color: black;
+    padding: 10px;
+    padding-bottom: 0;
+    border-radius: 25px;
+    border: solid 2px;
+`;
+
+const StyledDiv3 = styled.div`
+    flex-direction: column;
+    width: 100%;
+    border-bottom: solid;
+    margin-bottom: 10px;
 `;
 const StyledH3 = styled.h3`
   margin-top: 0px;
 `;
 
 const StyledH2 = styled.h2`
-  border-bottom: solid
+  border-bottom: solid;
+  margin: 0;
 `;
 const StyledP = styled.p`
 display: flex;
 justify-content: center;
-align-items: left;
 margin-top: 3px;
 `;
 const StyledP2 = styled.p`
 margin-top: 3px;
+
 `;
 
 const StyledSpan = styled.span`
-  margin-left: 4px;
-  margin-right: 4px;
+  margin-left: 8px;
+  margin-right: 8px;
 `;
+const StyledTable = styled.table`
+    text-align: center;
+    font-size: 20pt;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  `
+  const StyledTh = styled.th`
+  width: 50%;
+  margin: 0;
+`
+
+const StyledTr = styled.tr`
+  height: 100px;
+`
 
 function SingleWebsite() {
     const {id} = useParams();
@@ -139,7 +154,6 @@ function SingleWebsite() {
         const data = await getDocs(downvotesDoc)
         setDownvotes(data.docs.length)
     }
-console.log(upvotes + downvotes)
     let rating = 0; 
         if (upvotes >0 || downvotes > 0){
             rating = Math.round((upvotes / (upvotes + downvotes)) * 100)
@@ -176,22 +190,38 @@ console.log(upvotes + downvotes)
         getUpvotes();
         getDownvotes();
       }, []);
-
+//THIS IS WORKING 
     return(
         <StyledRootDiv>
             <StyledButton onClick={back}>Go Back</StyledButton>    
-            {website.map((w) => (<div>
+            {website.map((w) => (<StyledDiv key={w.id}>
                 <h1>{w.name}</h1> 
-                <StyledP><a href={w.link}>Visit Website</a> <br /></StyledP>
-                <StyledP>Description: {w.description}</StyledP>
-                <StyledP>Satisfaction Score: {rating}%</StyledP>
-            </div>))}
-            <StyledP>Upvotes: <StyledSpan style={{color:'green'}}>{upvotes} </StyledSpan> Downvotes: <StyledSpan style={{color:'red'}}>{downvotes}</StyledSpan></StyledP>
+                <StyledTable>
+                <thead>
+                <tr>
+                <StyledTh>Score: {rating}%</StyledTh>
+                <StyledTh><StyledSpan style={{color:'green'}}>{upvotes} </StyledSpan>-<StyledSpan style={{color:'red'}}>{downvotes}</StyledSpan></StyledTh>
+                </tr>
+                </thead>
+                <tbody>
+                <StyledTr>
+                    <td><Link to= {`/websites`}>Vote Here</Link></td>
+                    <td><a href={`https://${w.link}`}>Visit Website </a></td>
+                </StyledTr>
+                <tr>
+                <td colspan="2">Description: {w.description}</td>
+                </tr>
+                </tbody>
+                </StyledTable>
+            </StyledDiv>))}
 
-            <ReviewForm props={id}/>
-                
+                <ReviewForm props={id}/>
+            { message === "There are currently no reviews for this website" ?
             <StyledH2>{message}</StyledH2>
-            {sub.map((s) => (<StyledDiv>
+            :
+            <StyledDiv2>
+            <StyledH2>{message}</StyledH2>
+            {sub.map((s) => (<StyledDiv3 key={s.id}>
                 <StyledH3>{s.title}</StyledH3>
                 <StyledP2>{s.comment}</StyledP2>
                 <StyledP2>Posted: {s.date}</StyledP2>
@@ -200,7 +230,9 @@ console.log(upvotes + downvotes)
                         deleteReview(s.id)
                       }}/>
                 }
-            </StyledDiv>))}
+            </StyledDiv3>))}
+            </StyledDiv2>
+}
         </StyledRootDiv>
     )
 }

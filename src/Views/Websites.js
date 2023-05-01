@@ -6,7 +6,6 @@ import styled from "styled-components";
 const StyledRootDiv = styled.div`
   display: flex;
   flex-direction: column;
-
 `;
 
 const StyledRootH1 = styled.h1`
@@ -16,12 +15,15 @@ const StyledRootH1 = styled.h1`
 const StyledH2 = styled.h2`
   margin-top: 0;
   text-align: center;
+  
 `;
 
 const StyledSelect = styled.select`
 margin-top: 0;
 text-align: center;
 width: 100px;
+border-radius: 25px;
+height: 25px;
 `
 
 const StyledContainer = styled.div`
@@ -32,7 +34,7 @@ justify-content: center;
 `
 
 const StyledRootDiv1 = styled.div`
-  background-color: #9BDADE;
+background-color: #B0FEFF;
   color:white;
   display: flex;
   flex-direction: column;
@@ -40,7 +42,8 @@ const StyledRootDiv1 = styled.div`
   align-items: center;
   font-size: 18pt;
   flex: 0 0  33.33333%;
-  
+  border-radius: 20px;
+  border: 1px black solid;
   a:link { text-decoration: none; }
 a:visited { text-decoration: none; }
 a { color: inherit; } 
@@ -78,7 +81,7 @@ function Websites() {
           </StyledSelect>
           </StyledH2>
           <StyledContainer>
-          {websiteList.map((website) => ( <StyledRootDiv1>
+          {websiteList.map((website) => ( <StyledRootDiv1 key={website.id}>
             <AllWebsites type={type} website={website} />  </StyledRootDiv1>
           ))}
           </StyledContainer>

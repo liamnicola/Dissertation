@@ -1,6 +1,6 @@
 import {
 	createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged,
-	signInWithEmailAndPassword, signInWithPopup, signOut
+	signInWithEmailAndPassword, signInWithPopup, signOut, getAdditionalUserInfo
 } from "firebase/auth";
 import { setDoc, doc, getFirestore, ref} from "firebase/firestore"
 import { useEffect, useState } from "react";
@@ -39,7 +39,7 @@ function useAuth() {
 				email: email,
 			})
 
-		})
+		});
 		 
 	}
 
@@ -49,7 +49,19 @@ function useAuth() {
 
 	
 	const signUserOut = () => signOut(auth);
-	const signInGoogleUser = () => signInWithPopup(auth, googleProvider);
+	const signInGoogleUser = () => signInWithPopup(auth, googleProvider)
+		.then((result) => {
+		const { isNewUser } = getAdditionalUserInfo(result)
+		console.log(getAdditionalUserInfo(result))
+		if (isNewUser) {
+			return setDoc(doc(db, "users", result.user.uid),{
+				email: result.user.email
+			})
+		} else {
+		  console.log("User already exists")
+		}
+	})
+
 
 	return {
 		createEmailUser, isAuthenticated, signInEmailUser, signUserOut, user,

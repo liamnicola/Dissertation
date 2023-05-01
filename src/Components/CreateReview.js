@@ -16,42 +16,45 @@ import useAuth from "../services/firebase/useAuth";
 
 const StyledForm = styled.form`
   background: #cccccc;
-  display: grid;
+ 
+  color: black;
   justify-content: center;
   align-items: center;
   align-content: center;
-  width: 100%;
+
   padding: 0.5rem 0.8rem 0.5rem 0.8rem;
   margin: 0.9vw 0;
   border: 0;
   font-size: 20px;
   border-radius: 25px;
-  width: 35vw;
+  width: 50vw;
 `;
 const StyledLabel = styled.label`
-  text-align: center;
+  text-align: left;
   margin-bottom: 10px;
   width: 32vw;
   font-size: 18pt;
 `;
 
 const StyledInput = styled.input`
-  text-align: center;
-  height: 30px;
-  border-radius: 25px;
-  font-size: 15pt;
-  
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
 `;
 
 const StyledButton = styled.button`
-  height: 40px;
-  background: #b4eefd;
-  border-radius: 22px;
-  cursor: pointer;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+width: 100%;
+background-color: #4CAF50;
+color: white;
+padding: 14px 20px;
+margin: 8px 0;
+border: none;
+border-radius: 4px;
+cursor: pointer;
 `;
 const StyledH2 = styled.h2`
   justify-content: center;
@@ -103,8 +106,8 @@ function ReviewForm(props) {
     return (
         <div>
           <StyledForm name="createReviewForm" onSubmit={createReview}>
-            <StyledH2>Share your experiences of the site:</StyledH2>
-            <StyledLabel>Title</StyledLabel>
+            <StyledH2>Share your experience:</StyledH2>
+            <StyledLabel>Review Title:</StyledLabel>
             <StyledInput
               type="title"
               name="title"
@@ -114,7 +117,7 @@ function ReviewForm(props) {
             ></StyledInput>
             <label>{errors.title &&errors.title.message}</label>
             <br />
-            <StyledLabel>Comment</StyledLabel>
+            <StyledLabel>Review Comment:</StyledLabel>
             <StyledInput
               type="comment"
               name="comment"

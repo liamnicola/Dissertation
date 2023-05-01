@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useWebsites from "../services/firebase/useWebsites";
-import { getFirestore, updateDoc, doc, increment } from "firebase/firestore";
+import { getFirestore} from "firebase/firestore";
 import { Link } from "react-router-dom";
-import thumbsUp from "../assets/thumbsUp.png"
-import thumbsDown from "../assets/thumbsDown.png"
 
 const StyledRootDiv = styled.div`
-background-color: #2AF1FF;
+background-color: #B0FEFF;
+color: black;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -44,11 +43,21 @@ const StyledH2 = styled.h2`
   display: flex;
   font-weight: bold;
   margin-top: 20px;
+  
 `;
-
-const StyledP = styled.p`
+const StyledH2v2 = styled.h2`
   justify-content: center;
   display: flex;
+  font-weight: bold;
+  margin-top: 20px;
+  border-bottom: 2px solid;
+`;
+const StyledH3 = styled.h3`
+  justify-content: center;
+  display: flex;
+  font-style: italic;
+  margin-top: 0px;
+  font-weight: normal;
 `;
 const StyledVotes = styled.div`
     display: flex;
@@ -92,21 +101,6 @@ function LastWebsites() {
         }
       };
 
-      const upvote = async (id) => {
-        const webDoc = doc(db, "websites", id)
-        await updateDoc(webDoc, {
-          upvote: increment(1) 
-        })
-        getWebsiteData();
-      }
-  
-      const downvote = async (id) => {
-        const webDoc = doc(db, "websites", id)
-        await updateDoc(webDoc, {
-          downvote: increment(1) 
-          })
-          getWebsiteData();
-      }
       useEffect(() => {
         getWebsiteData();
       }, []);
@@ -122,32 +116,20 @@ function LastWebsites() {
           {websites.filter((item) => {
             return search.toLowerCase() === '' ? item: item.name.toLowerCase().includes(search)
           }).map((website) => (
-            <StyledRootDiv>
-                <StyledH2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2>
+            <StyledRootDiv key={website.id}>
+                <StyledH2v2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2v2>
+                <StyledH3>{website.type}</StyledH3>
                 <a href={website.link}>Visit Website</a> <br />
-                <StyledVotes>
-                <StyledImage alt="upvote" src={thumbsUp} onClick={()=>{
-                  upvote(website.id)
-                }}/>{" "}{website.upvote - website.downvote}{" "}<StyledImage2 alt="downvote" src={thumbsDown} onClick={()=>{
-                  downvote(website.id)
-                }}/>
-                </StyledVotes>
                 </StyledRootDiv>
           ))}
           </div>
           }
           <StyledH2>Recently added websites</StyledH2>
             {limitSorted.map((website) => (
-                <StyledRootDiv>
-                <StyledH2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2>
-                <a href={website.link}>Visit Website</a> <br />
-                <StyledVotes>
-                <StyledImage alt="upvote" src={thumbsUp} onClick={()=>{
-                  upvote(website.id)
-                }}/>{" "}{website.upvote - website.downvote}{" "}<StyledImage2 alt="downvote" src={thumbsDown} onClick={()=>{
-                  downvote(website.id)
-                }}/>
-                </StyledVotes>
+                <StyledRootDiv key={website.id}>
+                <StyledH2v2><Link to= {`/website/${website.id}`}>{website.name} </Link></StyledH2v2>
+                <StyledH3>{website.type}</StyledH3>
+                <a href={`https://${website.link}`}>Visit Website</a> <br />
                 </StyledRootDiv>
             ))}
         </div>

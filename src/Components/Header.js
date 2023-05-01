@@ -67,7 +67,7 @@ const StyledMenuWrapper = styled.div`
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
     height: 100%;
     width: 240px;
-    position: absolute;
+    position: fixed;
     padding-top: 1%;
     border-style: solid;
     border-color: #9BDADE;
@@ -102,7 +102,7 @@ const StyledMenuWrapper = styled.div`
               <Link to="/Create">Submit Website</Link>
             </StyledLi>
             <StyledLi onClick={signUserOut}>
-          {user.displayName || user.email} <span onClick={signUserOut}>(Logout)</span>
+            <span onClick={signUserOut}>Logout</span>
           </StyledLi>
           </ul>
         </StyledNav>

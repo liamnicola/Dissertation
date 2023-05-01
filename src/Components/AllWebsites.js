@@ -16,11 +16,12 @@ justify-content: center;
 `
 
 const StyledRootDiv = styled.div`
-  background-color: #9BDADE;
-  color:white;
+  color:black;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border-radius: 20px;
+
   align-items: center;
   font-size: 18pt;
   flex: 0 0  33.33333%;
@@ -73,13 +74,19 @@ const StyledVotes = styled.div`
     }
   `;
 
+  const StyledTable = styled.table`
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: flex-start;
+    font-size: 20pt;
+  `
+
 
 function AllWebsites(props) {
     const {website, type} = props
     const db = getFirestore();
     const {user} = useAuth();
-    const { getWebsites } = useWebsites();
-    const [websites, setWebsites] = useState([]);
     const [upvotes, setUpvotes] = useState([]);
     const upvotesRef = collection(db, "upvotes");
     const upvotesDoc = query(upvotesRef, where("websiteId", "==", website.id));
@@ -141,28 +148,9 @@ function AllWebsites(props) {
     const userLiked = upvotes.find((upvote) => upvote.userId === user.uid)
     const userDownvoted = downvotes.find((downvote) => downvote.userId === user.uid)
 
-    const upvote = async (id) => {
-      const webDoc = doc(db, "websites", id)
-      await updateDoc(webDoc, {
-        upvote: increment(1) 
-      })
-      //getWebsiteData();
-    }
-
-    const downvote = async (id) => {
-      const webDoc = doc(db, "websites", id)
-      await updateDoc(webDoc, {
-        downvote: increment(1) 
-        })
-        //getWebsiteData();
-    }
-
-    /*useEffect(() => {
-      getWebsiteData();
-    }, []);*/
-
     useEffect(() => {
       getUpvotes();
+      getDownvotes();
     }, []);
 
     const arrayedWebsites = [website]
@@ -175,42 +163,81 @@ function AllWebsites(props) {
         <StyledContainer>
               {type.length > 0 && <div>
                 {filtered.map((web) => (
-                  <StyledRootDiv>
+                  <StyledRootDiv key={web.id}>
                   <StyledH2><Link to= {`/website/${web.id}`}>{web.name} </Link></StyledH2>
                   <StyledH3>{web.type}</StyledH3>
-                  <a href={web.link}>Visit Website</a> <br/>
-                  <StyledVotes>
+                  <a href={`https://${web.link}`}>Visit Website</a> <br/>
+                  <StyledTable>
+                  <thead>
+                  <tr>
+                  <th>
                   {!userDownvoted &&
-                  <button onClick={userLiked? removeUpvote : addUpvote}> {userLiked ? <p>Remove</p> : <p>Upvote</p>}</button>
+                  <StyledImage src={thumbsUp} onClick={userLiked? removeUpvote : addUpvote}/> 
                   } 
-                  {upvotes && <p style={{color:'green'}}>{upvotes.length}</p>} 
-                  {downvotes && <p style={{color:'red'}}>{downvotes.length} </p>}
+                  </th>
+                  <th>
                   {!userLiked &&
-                  <button onClick={userDownvoted? removeDownvote : addDownvote}> {userDownvoted ? <p>Remove</p> : <p>Downvote</p>}</button>
+                  <StyledImage2 src={thumbsDown} onClick={userDownvoted? removeDownvote : addDownvote}/> 
                   }
-                  </StyledVotes>
+                  </th>
+                  </tr>
+                  </thead>
+                  </StyledTable>
+                  <StyledTable>
+                  <tbody>
+                  <tr>
+                  <td>
+                  {upvotes && <span style={{color:'green'}}>{upvotes.length}</span>}
+                  </td>
+                  <td>
+                  {"-"}
+                  </td>
+                  <td>
+                  {downvotes && <span style={{color:'red'}}>{downvotes.length}</span>}
+                  </td>
+                  </tr>
+                  </tbody>
+                  </StyledTable>
                   </StyledRootDiv>
                 ))}
                 </div>
                 }
               {type ==="All Websites" || type.length === 0 ?<div>
                 {[website].map((web) => (
-                  <StyledRootDiv>
+                  <StyledRootDiv key={web.id}>
                   <StyledH2><Link to= {`/website/${web.id}`}>{web.name} </Link></StyledH2>
                   <StyledH3>{web.type}</StyledH3>
-                  <a href={web.link}>Visit Website</a> <br/>
-                  <StyledVotes>
+                  <StyledTable>
+                  <thead>
+                  <tr>
+                  <th>
                   {!userDownvoted &&
-                  <button onClick={userLiked? removeUpvote : addUpvote}> {userLiked ? <p>Remove</p> : <p>Upvote</p>}</button>
+                  <StyledImage src={thumbsUp} onClick={userLiked? removeUpvote : addUpvote}/> 
                   } 
+                  </th>
+                  <th>
                   {!userLiked &&
-                  <button onClick={userDownvoted? removeDownvote : addDownvote}> {userDownvoted ? <p>Remove</p> : <p>Downvote</p>}</button>
+                  <StyledImage2 src={thumbsDown} onClick={userDownvoted? removeDownvote : addDownvote}/> 
                   }
-                  </StyledVotes>
-                  <p>
-                  {upvotes && <span style={{color:'green'}}>{upvotes.length}</span>} {" - "}
+                  </th>
+                  </tr>
+                  </thead>
+                  </StyledTable>
+                  <StyledTable>
+                  <tbody>
+                  <tr>
+                  <td>
+                  {upvotes && <span style={{color:'green'}}>{upvotes.length}</span>}
+                  </td>
+                  <td>
+                  {"-"}
+                  </td>
+                  <td>
                   {downvotes && <span style={{color:'red'}}>{downvotes.length}</span>}
-                  </p>
+                  </td>
+                  </tr>
+                  </tbody>
+                  </StyledTable>
                   </StyledRootDiv>
                   ))}
               </div> : null
@@ -228,5 +255,6 @@ function AllWebsites(props) {
                   {upvotes && <p> upvotes: {upvotes.length}</p>}
                   </StyledVotes>
                   */
+                  //<button onClick={userLiked? removeUpvote : addUpvote}> {userLiked ? <p>Remove</p> : <p>Upvote</p>}</button>
 
 export default AllWebsites;

@@ -48,6 +48,7 @@ const StyledForm = styled.form`
   font-size: 20px;
   margin-left: 25%;
   border-radius: 25px;
+  color: black;
 `;
 const StyledLabel = styled.label`
   text-align: center;
@@ -133,11 +134,12 @@ function WebsiteForm() {
         ></StyledInput>
         <label>{errors.name &&errors.name.message}</label>
         <br />
-        <StyledLabel>Website's Link </StyledLabel>
+        <StyledLabel>Domain Name</StyledLabel>
+        <StyledLabel>In order for extension to work please use the <span style={{ fontWeight: "bold"}}>full domain </span>(include any subdomains to the link e.g www. or blog. etc)</StyledLabel>
         <StyledInput
           type="link"
           name="link"
-          placeholder="Please Enter the link"
+          placeholder="Please Enter the full domain name"
           {...register("link")}
           onChange={(event) => setNewLink(event.target.value)}
         ></StyledInput>
