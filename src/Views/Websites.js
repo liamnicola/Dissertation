@@ -43,24 +43,26 @@ background-color: #B0FEFF;
   font-size: 18pt;
   flex: 0 0  33.33333%;
   border-radius: 20px;
-  border: 1px black solid;
+  
   a:link { text-decoration: none; }
 a:visited { text-decoration: none; }
 a { color: inherit; } 
 `;
 
 function Websites() {
-  const db = getFirestore();
   const [type, setType] = useState('');
   const [websiteList, setWebsiteList] = useState([]);
-  const websitesRef = collection(db, "websites")
+  
 
-  const getWebsiteData = async () => {
-    const data = await getDocs(query(websitesRef, orderBy("name", "asc")));
-    setWebsiteList(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-  };
+  
 
   useEffect(() => {
+    const db = getFirestore();
+    const websitesRef = collection(db, "websites")
+    const getWebsiteData = async () => {
+      const data = await getDocs(query(websitesRef, orderBy("name", "asc")));
+      setWebsiteList(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+    };
     getWebsiteData();
   }, []);
 
@@ -70,13 +72,13 @@ function Websites() {
 
     return (
       <StyledRootDiv>
-        <StyledRootH1>All existing websites</StyledRootH1>
+        <StyledRootH1>All Existing Websites</StyledRootH1>
         <StyledH2>Sort By Website Type: {""}
           <StyledSelect name="type" id="type" onChange={handleFilter}>
            <option value="All Websites">All Websites</option>
             <option value="Business">Business</option>
             <option value="News">News</option>
-            <option value="Selling">Selling</option>
+            <option value="E-Commerce & Marketplace">E-Commerce & Marketplace</option>
             <option value="Social Media">Social Media</option>
           </StyledSelect>
           </StyledH2>

@@ -74,12 +74,9 @@ const StyledH3 = styled.h3`
 const StyledH2 = styled.h2`
   border-bottom: solid;
   margin: 0;
+  text-align: center;
 `;
-const StyledP = styled.p`
-display: flex;
-justify-content: center;
-margin-top: 3px;
-`;
+
 const StyledP2 = styled.p`
 margin-top: 3px;
 
@@ -96,11 +93,6 @@ const StyledTable = styled.table`
     margin: 0;
     width: 100%;
   `
-  const StyledTh = styled.th`
-  width: 50%;
-  margin: 0;
-`
-
 const StyledTr = styled.tr`
   height: 100px;
 `
@@ -172,6 +164,9 @@ function SingleWebsite() {
         message = `${amount} User Reviews`
     }
 
+
+    const userReviewed = sub.find((review)=> review.account === user.email);
+
     const deleteReview = async (subID) => {
         const deleteRef = doc(db, `websites/${id}/reviews/${subID}`)
         await deleteDoc(deleteRef);
@@ -190,7 +185,7 @@ function SingleWebsite() {
         getUpvotes();
         getDownvotes();
       }, []);
-//THIS IS WORKING 
+
     return(
         <StyledRootDiv>
             <StyledButton onClick={back}>Go Back</StyledButton>    
@@ -199,23 +194,24 @@ function SingleWebsite() {
                 <StyledTable>
                 <thead>
                 <tr>
-                <StyledTh>Score: {rating}%</StyledTh>
-                <StyledTh><StyledSpan style={{color:'green'}}>{upvotes} </StyledSpan>-<StyledSpan style={{color:'red'}}>{downvotes}</StyledSpan></StyledTh>
+                <td colSpan="2">Description: {w.description}</td>
                 </tr>
                 </thead>
                 <tbody>
                 <StyledTr>
+                <td>Score: {rating}%</td>
+                <td><StyledSpan style={{color:'green'}}>{upvotes}</StyledSpan>-<StyledSpan style={{color:'red'}}>{downvotes}</StyledSpan></td>
+                </StyledTr>
+                <StyledTr>
                     <td><Link to= {`/websites`}>Vote Here</Link></td>
                     <td><a href={`https://${w.link}`}>Visit Website </a></td>
                 </StyledTr>
-                <tr>
-                <td colspan="2">Description: {w.description}</td>
-                </tr>
                 </tbody>
                 </StyledTable>
+                {!userReviewed && <ReviewForm props={w.id}/> }
             </StyledDiv>))}
 
-                <ReviewForm props={id}/>
+                
             { message === "There are currently no reviews for this website" ?
             <StyledH2>{message}</StyledH2>
             :

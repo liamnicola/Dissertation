@@ -9,6 +9,7 @@ import { Redirect } from "react-router-dom";
 
 
 function useAuth() {
+	const [loading, setLoading] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState({})
 	const auth = getAuth();
@@ -19,9 +20,9 @@ function useAuth() {
 
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
+				setLoading(false);
 				setIsAuthenticated(true);
 				setUser(user);
-				Redirect("/Home")
 				return;
 			}
 			setIsAuthenticated(false);
@@ -29,7 +30,7 @@ function useAuth() {
 			return;
 		});
 
-	}, [setIsAuthenticated, auth])
+	}, [setIsAuthenticated, auth, loading])
 
 
 

@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
-  doc,
   addDoc,
   collection,
-  getDocs,
   getFirestore,
 } from "firebase/firestore";
 import useAuth from "../services/firebase/useAuth";
-
+import { useHistory } from 'react-router-dom';
 
 const StyledForm = styled.form`
   background: #cccccc;
@@ -74,7 +72,7 @@ function ReviewForm(props) {
         title: yup.string().required("Title is Required"),
         comment: yup.string().required("Comment is Required"),
     }).required();
-
+    const history = useHistory();
     const moment = require('moment');
     const date = moment();
     const newDate = date.format('YYYY-MM-DD')
@@ -92,10 +90,8 @@ function ReviewForm(props) {
         addDoc(subRef, {
         ...formData
         });
-        console.log(Valid)
-        document.createReviewForm.reset();
         event.preventDefault();
-        alert("Created")
+        alert("created")
     } else {
         alert("All Data must be entered")
         event.preventDefault();
@@ -106,7 +102,7 @@ function ReviewForm(props) {
     return (
         <div>
           <StyledForm name="createReviewForm" onSubmit={createReview}>
-            <StyledH2>Share your experience:</StyledH2>
+            <StyledH2>Share Your Experience:</StyledH2>
             <StyledLabel>Review Title:</StyledLabel>
             <StyledInput
               type="title"

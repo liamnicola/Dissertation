@@ -55,7 +55,6 @@ const StyledH2v2 = styled.h2`
 const StyledH3 = styled.h3`
   justify-content: center;
   display: flex;
-  font-style: italic;
   margin-top: 0px;
   font-weight: normal;
 `;

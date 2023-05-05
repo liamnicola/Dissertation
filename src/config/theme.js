@@ -3,7 +3,7 @@ const theme={
         black: "#00000"
     },
     typography: {
-        fontFamily: "Ariel",
+        fontFamily: "Arial",
         fontColor: "#00000",
         h1: {
           fontSize: "34px",

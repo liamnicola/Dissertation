@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import useWebsites from "../services/firebase/useWebsites";
-import { getFirestore, updateDoc, doc, getDocs, query, increment, addDoc, where, collection, deleteDoc } from "firebase/firestore";
+import { getFirestore, doc, getDocs, query, addDoc, where, collection, deleteDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import thumbsUp from "../assets/thumbsUp.png"
 import thumbsDown from "../assets/thumbsDown.png"
-import background2 from "../assets/background2.png"
 import useAuth from "../services/firebase/useAuth";
 
 const StyledContainer = styled.div`
@@ -55,24 +53,10 @@ const StyledH2 = styled.h2`
 const StyledH3 = styled.h3`
   justify-content: center;
   display: flex;
-  font-style: italic;
+
   margin-top: 0px;
   font-weight: normal;
 `;
-const StyledVotes = styled.div`
-    display: flex;
-    justify-content: space-between;
-    img {
-      width: 50px;
-      height: 50px;
-    }
-    cursor: pointer;
-    margin: 5px;
-    padding- 10px;
-    span {
-      width: 100px;
-    }
-  `;
 
   const StyledTable = styled.table`
     text-align: center;

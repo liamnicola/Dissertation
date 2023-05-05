@@ -48,13 +48,15 @@ function App() {
   const location = useLocation();
   const history = useHistory();
   initializeApp(firebaseConfig);
-  const [openMenu, setOpenMenu] = useState(false);
+  const [openMenu, setOpenMenu] = useState(true);
+  const [loading, setLoading] = useState(true);
   const { isAuthenticated, createEmailUser, signInEmailUser, signUserOut } =
   useAuth();
 useEffect(() => {
   if (isAuthenticated) {
     history.push("/Home");
   }
+  //setLoading(false);
   return;
 }, [isAuthenticated]);
 

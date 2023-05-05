@@ -1,40 +1,16 @@
-import React, { useEffect, useState} from "react";
+import React, {useState} from "react";
 import { useHistory } from 'react-router-dom';
 
-import PropTypes from "prop-types";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {
-  doc,
   addDoc,
   collection,
-  getDocs,
   getFirestore,
 } from "firebase/firestore";
-import useAuth from "../services/firebase/useAuth";
 
-/*rgb(63, 94, 251);
-  background: radial-gradient(
-    circle,
-    rgba(63, 94, 251, 1) 0%,
-    rgba(252, 70, 107, 1) 100%
-  );*/
-
-
-  const StyledRootDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  border-radius: 250px;
-  font-size: 18pt;
-  position: relative;
-  margin-left: 25%;
-  margin-bottom: 15px;
-`;
 const StyledForm = styled.form`
   background: #cccccc;
   display: grid;
@@ -96,7 +72,6 @@ function WebsiteForm() {
 
   const {register, formState: { errors }, watch} = useForm({resolver: yupResolver(formSchema),defaultValues: {name: "", link: ""} ,});
 
-  const { user } = useAuth();
 
   const createWebsite = async (event) => {
     let formData = {
@@ -112,7 +87,6 @@ function WebsiteForm() {
       addDoc(websiteCollectionRef, {
         ...formData
       });
-      console.log(Valid)
       event.preventDefault();
       history.push('/websites');
   } else {
@@ -160,7 +134,7 @@ function WebsiteForm() {
               onChange={(event) => setNewType(event.target.value)}> 
               <option selected disabled>Please Choose Type</option>
               <option value="Social Media">Social Media</option>
-              <option value="Selling">Selling</option>
+              <option value="Selling">E-Commerce & Marketplace</option>
               <option value="Business">Business</option>
               <option value="News">News</option>
             </select>
