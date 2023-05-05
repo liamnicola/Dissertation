@@ -78,8 +78,6 @@ function WebsiteForm() {
       name: newName,
       link: newLink,
       description: newDesc,
-      upvote: 0,
-      downvote: 0,
       type: newType
     }
     const Valid = await formSchema.isValid(formData)
@@ -134,7 +132,7 @@ function WebsiteForm() {
               onChange={(event) => setNewType(event.target.value)}> 
               <option selected disabled>Please Choose Type</option>
               <option value="Social Media">Social Media</option>
-              <option value="Selling">E-Commerce & Marketplace</option>
+              <option value="E-Commerce & Marketplace">E-Commerce & Marketplace</option>
               <option value="Business">Business</option>
               <option value="News">News</option>
             </select>

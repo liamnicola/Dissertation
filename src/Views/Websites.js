@@ -31,6 +31,7 @@ display: flex;
 flex-wrap: wrap;
 gap: 10px;
 justify-content: center;
+margin-bottom: 10px;
 `
 
 const StyledRootDiv1 = styled.div`
@@ -41,28 +42,26 @@ background-color: #B0FEFF;
   justify-content: center;
   align-items: center;
   font-size: 18pt;
-  flex: 0 0  33.33333%;
+  flex: 0 0  25%;
   border-radius: 20px;
-  
+  border: solid black 2px;
   a:link { text-decoration: none; }
 a:visited { text-decoration: none; }
 a { color: inherit; } 
 `;
 
 function Websites() {
+  const db = getFirestore();
   const [type, setType] = useState('');
   const [websiteList, setWebsiteList] = useState([]);
-  
+  const websitesRef = collection(db, "websites")
 
-  
+  const getWebsiteData = async () => {
+    const data = await getDocs(query(websitesRef, orderBy("name", "asc")));
+    setWebsiteList(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+  };
 
   useEffect(() => {
-    const db = getFirestore();
-    const websitesRef = collection(db, "websites")
-    const getWebsiteData = async () => {
-      const data = await getDocs(query(websitesRef, orderBy("name", "asc")));
-      setWebsiteList(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-    };
     getWebsiteData();
   }, []);
 
@@ -70,23 +69,31 @@ function Websites() {
      setType(event.target.value)
   }
 
+  const filtered = websiteList.filter((item) => {
+    return type === '' ? item: item.type.includes(type)
+  })
     return (
       <StyledRootDiv>
-        <StyledRootH1>All Existing Websites</StyledRootH1>
+        <StyledRootH1>All existing websites</StyledRootH1>
         <StyledH2>Sort By Website Type: {""}
           <StyledSelect name="type" id="type" onChange={handleFilter}>
-           <option value="All Websites">All Websites</option>
+           <option value="">All Websites</option>
             <option value="Business">Business</option>
             <option value="News">News</option>
             <option value="E-Commerce & Marketplace">E-Commerce & Marketplace</option>
             <option value="Social Media">Social Media</option>
           </StyledSelect>
           </StyledH2>
-          <StyledContainer>
-          {websiteList.map((website) => ( <StyledRootDiv1 key={website.id}>
-            <AllWebsites type={type} website={website} />  </StyledRootDiv1>
+            {type.length > 0 && <StyledContainer>
+          {filtered.map((website) => ( <StyledRootDiv1 key={website.id}>
+            <AllWebsites website={website} />  </StyledRootDiv1>
           ))}
-          </StyledContainer>
+          </StyledContainer>}
+            {type === "All Websites" || type.length === 0 ?<StyledContainer>
+          {filtered.map((website) => ( <StyledRootDiv1 key={website.id}>
+            <AllWebsites website={website} />  </StyledRootDiv1>
+          ))}
+          </StyledContainer> : null}
       </StyledRootDiv>
     );
   }

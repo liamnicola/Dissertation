@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { getFirestore, doc, getDocs, query, addDoc, where, collection, deleteDoc } from "firebase/firestore";
+import useWebsites from "../services/firebase/useWebsites";
+import { getFirestore, updateDoc, doc, getDocs, query, increment, addDoc, where, collection, deleteDoc } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import thumbsUp from "../assets/thumbsUp.png"
 import thumbsDown from "../assets/thumbsDown.png"
+import background2 from "../assets/background2.png"
 import useAuth from "../services/firebase/useAuth";
 
 const StyledContainer = styled.div`
@@ -15,17 +17,7 @@ justify-content: center;
 
 const StyledRootDiv = styled.div`
   color:black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: 20px;
-
-  align-items: center;
-  font-size: 18pt;
-  flex: 0 0  33.33333%;
-  a:link { text-decoration: none; }
-a:visited { text-decoration: none; }
-a { color: inherit; } 
+  width: 100%
 `;
 
 const StyledImage = styled.img`
@@ -53,10 +45,23 @@ const StyledH2 = styled.h2`
 const StyledH3 = styled.h3`
   justify-content: center;
   display: flex;
-
   margin-top: 0px;
   font-weight: normal;
 `;
+const StyledVotes = styled.div`
+    display: flex;
+    justify-content: space-between;
+    img {
+      width: 50px;
+      height: 50px;
+    }
+    cursor: pointer;
+    margin: 5px;
+    padding- 10px;
+    span {
+      width: 100px;
+    }
+  `;
 
   const StyledTable = styled.table`
     text-align: center;
@@ -77,7 +82,7 @@ function AllWebsites(props) {
     const [downvotes, setDownvotes] = useState([]);
     const downvotesRef = collection(db, "downvotes");
     const downvotesDoc = query(downvotesRef, where("websiteId", "==", website.id));
-         
+
     const getUpvotes = async () => {
       const data = await getDocs(upvotesDoc)
       setUpvotes( data.docs.map((doc) => ({ userId: doc.data().userId, upvoteId: doc.id })));
@@ -137,56 +142,12 @@ function AllWebsites(props) {
       getDownvotes();
     }, []);
 
-    const arrayedWebsites = [website]
-    const filtered = arrayedWebsites.filter((item) => {
-      return type === '' ? item: item.type.includes(type)
-    })
+
+
     
     
     return (
         <StyledContainer>
-              {type.length > 0 && <div>
-                {filtered.map((web) => (
-                  <StyledRootDiv key={web.id}>
-                  <StyledH2><Link to= {`/website/${web.id}`}>{web.name} </Link></StyledH2>
-                  <StyledH3>{web.type}</StyledH3>
-                  <a href={`https://${web.link}`}>Visit Website</a> <br/>
-                  <StyledTable>
-                  <thead>
-                  <tr>
-                  <th>
-                  {!userDownvoted &&
-                  <StyledImage src={thumbsUp} onClick={userLiked? removeUpvote : addUpvote}/> 
-                  } 
-                  </th>
-                  <th>
-                  {!userLiked &&
-                  <StyledImage2 src={thumbsDown} onClick={userDownvoted? removeDownvote : addDownvote}/> 
-                  }
-                  </th>
-                  </tr>
-                  </thead>
-                  </StyledTable>
-                  <StyledTable>
-                  <tbody>
-                  <tr>
-                  <td>
-                  {upvotes && <span style={{color:'green'}}>{upvotes.length}</span>}
-                  </td>
-                  <td>
-                  {"-"}
-                  </td>
-                  <td>
-                  {downvotes && <span style={{color:'red'}}>{downvotes.length}</span>}
-                  </td>
-                  </tr>
-                  </tbody>
-                  </StyledTable>
-                  </StyledRootDiv>
-                ))}
-                </div>
-                }
-              {type ==="All Websites" || type.length === 0 ?<div>
                 {[website].map((web) => (
                   <StyledRootDiv key={web.id}>
                   <StyledH2><Link to= {`/website/${web.id}`}>{web.name} </Link></StyledH2>
@@ -223,9 +184,7 @@ function AllWebsites(props) {
                   </tbody>
                   </StyledTable>
                   </StyledRootDiv>
-                  ))}
-              </div> : null
-              }
+                ))}
           </StyledContainer>
     )   
 };
