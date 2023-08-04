@@ -1,16 +1,17 @@
+import { initializeApp } from "firebase/app";
+
 import React, {useEffect, useState} from "react";
 import {
+  Redirect,
   Switch,
   Route,
-  useLocation,
   useHistory,
-  Redirect,
+  useLocation
 } from "react-router-dom";
 import useAuth from "./services/firebase/useAuth";
 import { ThemeProvider } from "styled-components";
 import GlobalStyles from "./config/globalStyles";
 import theme from "./config/theme.js";
-import { initializeApp } from "firebase/app";
 import firebaseConfig from "./config/firebase";
 import Header from "./Components/Header";
 import Landing from "./Views/Landing";
@@ -46,18 +47,10 @@ function Protected({ authenticated, children, ...rest }) {
 
 function App() {
   const location = useLocation();
-  const history = useHistory();
   initializeApp(firebaseConfig);
+  const history = useHistory();
   const [openMenu, setOpenMenu] = useState(true);
-  const { isAuthenticated, createEmailUser, signInEmailUser, signUserOut } =
-  useAuth();
-useEffect(() => {
-  if (isAuthenticated) {
-    history.push("/Home");
-  }
-  return;
-}, [isAuthenticated]);
-
+  const { isAuthenticated, createEmailUser, signInEmailUser, signUserOut } = useAuth();
 
   const handleMenuClick = (e) => {
     setOpenMenu(!openMenu);
@@ -67,11 +60,17 @@ useEffect(() => {
     setOpenMenu(false);
   }, [location]);
 
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      history.push("/home");
+      return;
+    }
+    return;
+  }, [isAuthenticated]);
+
   return (
-    <div style={{
-      backgroundImage: `url(${background2})`,
-      minHeight: `100vh`
-    }}>
+    <div>
       <ThemeProvider theme={theme}>
         
         <GlobalStyles />
@@ -79,23 +78,23 @@ useEffect(() => {
         {location.pathname !== "/join" && location.pathname !== "/login" && location.pathname !== "/" &&(
           <Header onClick={handleMenuClick} open={openMenu} signOut={signUserOut} />
         )}
+        <Switch>
+        <Protected authenticated={isAuthenticated} exact path="/home">
+              <Home />
+            </Protected>
           <Route exact path="/">
             <Landing />
           </Route>
-          <Route exact path="/Login">
-            <Login signInEmailUser={signInEmailUser} />
+          <Route exact path="/login">
+            <Login authenticated={isAuthenticated} signInEmailUser={signInEmailUser} />
           </Route>
           <Route exact path="/join">
             <Join createEmailUser={createEmailUser}/>
           </Route>
-          <Switch>
-          <Protected authenticated={isAuthenticated} exact path="/Home">
-              <Home />
-            </Protected>
-            <Protected authenticated={isAuthenticated} exact path="/Create">
+            <Protected authenticated={isAuthenticated} exact path="/create">
               <Create />
             </Protected>
-            <Protected authenticated={isAuthenticated} exact path="/Websites">
+            <Protected authenticated={isAuthenticated} exact path="/websites">
               <Websites />
             </Protected>
             <Protected authenticated={isAuthenticated} exact path="/website/:id">

@@ -4,12 +4,8 @@ import {
 } from "firebase/auth";
 import { setDoc, doc, getFirestore, ref} from "firebase/firestore"
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
-
-
 
 function useAuth() {
-	const [loading, setLoading] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const [user, setUser] = useState({})
 	const auth = getAuth();
@@ -20,7 +16,6 @@ function useAuth() {
 
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
-				setLoading(false);
 				setIsAuthenticated(true);
 				setUser(user);
 				return;
@@ -30,7 +25,7 @@ function useAuth() {
 			return;
 		});
 
-	}, [setIsAuthenticated, auth, loading])
+	}, [setIsAuthenticated, auth])
 
 
 

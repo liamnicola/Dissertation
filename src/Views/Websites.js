@@ -35,7 +35,7 @@ margin-bottom: 10px;
 `
 
 const StyledRootDiv1 = styled.div`
-background-color: #B0FEFF;
+background-color: #87F1FF;
   color:white;
   display: flex;
   flex-direction: column;

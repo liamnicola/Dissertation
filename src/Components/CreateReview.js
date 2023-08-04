@@ -91,7 +91,7 @@ function ReviewForm(props) {
         ...formData
         });
         event.preventDefault();
-        alert("created")
+        window.location.reload(true)
     } else {
         alert("All Data must be entered")
         event.preventDefault();

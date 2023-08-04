@@ -7,7 +7,8 @@ body {
     font-family: Arial;
     padding-top: 0;
     margin: 0;
-    color: white;
+    color: #172A3A;
+    //background-color: #172A3A;
 };
 
 h1 {

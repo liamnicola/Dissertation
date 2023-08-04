@@ -33,7 +33,6 @@ function Login(props) {
     try {
       const { email, password } = data;
       await signInEmailUser(email, password);
-      Redirect("/Home")
     } catch (e) {
       setServerErrorMessage(e.message);
     }
@@ -43,7 +42,6 @@ function Login(props) {
     try {
       if (method === "google") {
         await signInGoogleUser();
-        Redirect("/Home")
       }
     } catch (error) {
       console.log("error");

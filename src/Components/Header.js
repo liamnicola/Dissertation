@@ -92,14 +92,14 @@ const StyledMenuWrapper = styled.div`
         <StyledClosedText onClick={onClick}> X </StyledClosedText>
         <StyledNav>
           <ul>
-            <StyledLi active={location.pathname ==="/Home"}>
+            <StyledLi>
               <Link to="/home">Home</Link>
             </StyledLi>
             <StyledLi>
-              <Link to="/Websites">View Websites</Link>
+              <Link to="/websites">View Websites</Link>
             </StyledLi>
             <StyledLi>
-              <Link to="/Create">Submit Website</Link>
+              <Link to="/create">Submit Website</Link>
             </StyledLi>
             <StyledLi onClick={signUserOut}>
             <span onClick={signUserOut}>Logout</span>
@@ -114,11 +114,13 @@ const StyledMenuWrapper = styled.div`
   };
 
 function Header(props) {
+
   const {onClick, open} = props;
   const handleClick = e => {
     e.preventDefault();
     onClick(e);
   };
+  
   return (
     <div>
       <StyledMenuWrapper open={open}>

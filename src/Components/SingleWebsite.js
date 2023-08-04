@@ -176,7 +176,7 @@ function SingleWebsite() {
 
     
     const back =() => {
-        history.goBack();
+        history.push("/Websites");
     }
 
     useEffect(() => {
@@ -188,7 +188,7 @@ function SingleWebsite() {
 
     return(
         <StyledRootDiv>
-            <StyledButton onClick={back}>Go Back</StyledButton>    
+            <StyledButton onClick={back}>← All Websites</StyledButton>    
             {website.map((w) => (<StyledDiv key={w.id}>
                 <h1>{w.name}</h1> 
                 <StyledTable>

@@ -24,17 +24,15 @@ const StyledH1 = styled.h1`
   font-weight: bold;
   margin-top: 20px;
 `;
-const StyledH2 = styled.h2`
+const StyledH3 = styled.h3`
   display: flex;
   justify-content: center;
-  font-weight: bold;
   margin-top: 20px;
-  font-size: 22pt;
   width: auto;
 `;
 const StyledButton = styled.button`
   height: 50px;
-  background: linear-gradient(to right top, #BF81A0, #8766A7, #5694A0  );
+  background: #F7567C;
   border-radius: 22px;
   color: white;
   cursor: pointer;
@@ -43,6 +41,7 @@ const StyledButton = styled.button`
   align-items: center;
   align-content: center;
   font-size: 15pt;
+  border:  #F7567C solid 5px;
 `;
 function Landing() {
   
@@ -50,9 +49,9 @@ function Landing() {
   return (
 
       <StyledRootDiv>
-        <StyledH1>Become more aware of the websites you are using</StyledH1>
-        <StyledH2>Use this app to review websites and identify if they are trustworthy</StyledH2>
-        <Link to="/login"><StyledButton>Click here to start</StyledButton></Link>
+        <StyledH1>WebCheck</StyledH1>
+        <p>Share and view experiences of websites to help people recognise what websites are trustworthy, and what websites users should be cautious of </p>
+        <Link to="/login"><StyledButton>Begin</StyledButton></Link>
       </StyledRootDiv>
 
   );

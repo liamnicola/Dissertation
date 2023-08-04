@@ -35,7 +35,6 @@ function Join(props) {
     try {
       const { email, password } = data;
       await createEmailUser(email, password);
-      navigate("/");
     } catch (e) {
       setServerErrorMessage(e.message);
     }

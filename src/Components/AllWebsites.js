@@ -21,7 +21,7 @@ const StyledRootDiv = styled.div`
 `;
 
 const StyledImage = styled.img`
-  background: #33ff33;
+  background: #09BC8A;
   border-radius: 20px;
   cursor: pointer;
   margin-bottom: 15px;
@@ -29,7 +29,7 @@ const StyledImage = styled.img`
 `;
 
 const StyledImage2 = styled.img`
-  background: #ff3333;
+  background: #F7567C;
   border-radius: 20px;
   cursor: pointer;
   margin-bottom: 15px;
