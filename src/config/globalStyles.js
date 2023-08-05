@@ -7,8 +7,8 @@ body {
     font-family: Arial;
     padding-top: 0;
     margin: 0;
-    color: #172A3A;
-    //background-color: #172A3A;
+    color: #ffffff;
+    background-color: #172A3A;
 };
 
 h1 {
@@ -19,5 +19,5 @@ h1 {
 }
 ;
 
-`
+`;
 export default GlobalStyles;

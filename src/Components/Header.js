@@ -20,7 +20,6 @@ const StyledNav = styled.nav`
     padding-left: 0;
     margin: 0;
     height: 50px;
-    
   }
   a:-webkit-any-link {
     text-decoration: none;
@@ -44,11 +43,11 @@ const StyledBurgerMenu = styled.div`
   `;
 
 const StyledClosedText = styled.p`
-    text-align: center;
-    margin-bottom: 15%;
-    font-size: 20px;
-    cursor: pointer;
-  `;
+  text-align: center;
+  margin-bottom: 15%;
+  font-size: 20px;
+  cursor: pointer;
+`;
 
 const StyledLi = styled.li`
   display: flex;
@@ -63,73 +62,70 @@ const StyledLi = styled.li`
 `;
 
 const StyledMenuWrapper = styled.div`
-    transition: all 0.6s ease;
-    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
-    height: 100%;
-    width: 240px;
-    position: fixed;
-    padding-top: 1%;
-    border-style: solid;
-    border-color: #9BDADE;
-    border-width: 4px;
-    border-left: 0;
-    border-bottom: 0;
-    border-top: 0;
-    background-color: #202020;
-    z-index: 1;
-  `;
+  transition: all 0.6s ease;
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
+  height: 100%;
+  width: 240px;
+  position: fixed;
+  padding-top: 1%;
+  border-style: solid;
+  border-color: #9bdade;
+  border-width: 4px;
+  border-left: 0;
+  border-bottom: 0;
+  border-top: 0;
+  background-color: #315573;
+  z-index: 1;
+`;
 //090909
 
-  function Menu(props) {
-    const { onClick } = props;
-    const location = useLocation();
-    const { user, signUserOut } = useAuth();
-  
-  
-    return (
-      
-      <div>
-        <StyledClosedText onClick={onClick}> X </StyledClosedText>
-        <StyledNav>
-          <ul>
-            <StyledLi>
-              <Link to="/home">Home</Link>
-            </StyledLi>
-            <StyledLi>
-              <Link to="/websites">View Websites</Link>
-            </StyledLi>
-            <StyledLi>
-              <Link to="/create">Submit Website</Link>
-            </StyledLi>
-            <StyledLi onClick={signUserOut}>
+function Menu(props) {
+  const { onClick } = props;
+  const location = useLocation();
+  const { user, signUserOut } = useAuth();
+
+  return (
+    <div>
+      <StyledClosedText onClick={onClick}> X </StyledClosedText>
+      <StyledNav>
+        <ul>
+          <StyledLi>
+            <Link to="/home">Home</Link>
+          </StyledLi>
+          <StyledLi>
+            <Link to="/websites">View Websites</Link>
+          </StyledLi>
+          <StyledLi>
+            <Link to="/create">Submit Website</Link>
+          </StyledLi>
+          <StyledLi onClick={signUserOut}>
             <span onClick={signUserOut}>Logout</span>
           </StyledLi>
-          </ul>
-        </StyledNav>
-      </div>
-    );
-  }
-  Menu.propTypes = {
-    onClick: PropTypes.func.isRequired
-  };
+        </ul>
+      </StyledNav>
+    </div>
+  );
+}
+Menu.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};
 
 function Header(props) {
-
-  const {onClick, open} = props;
-  const handleClick = e => {
+  const { onClick, open } = props;
+  const handleClick = (e) => {
     e.preventDefault();
     onClick(e);
   };
-  
+
   return (
     <div>
       <StyledMenuWrapper open={open}>
         <Menu onClick={handleClick} />
       </StyledMenuWrapper>
       <StyledBurgerMenu onClick={handleClick}>
-          <hr />
-          <hr />
-          <hr />
+        <hr />
+        <hr />
+        <hr />
       </StyledBurgerMenu>
     </div>
   );
